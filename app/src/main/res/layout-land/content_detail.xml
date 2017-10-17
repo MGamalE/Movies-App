@@ -9,6 +9,11 @@
     tools:context=".MovieDetail"
     tools:showIn="@layout/activity_detail">
 
+    <LinearLayout
+        android:id="@+id/ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -22,9 +27,9 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:layout_width="576dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="3dp"
                     android:padding="16dp"
@@ -36,9 +41,9 @@
 
                 <TextView
                     android:id="@+id/userrating"
-                    android:layout_width="match_parent"
+                    android:layout_width="576dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:padding="16dp"
                     android:textSize="20sp"
@@ -48,7 +53,7 @@
 
                 <TextView
                     android:id="@+id/releasedate"
-                    android:layout_width="match_parent"
+                    android:layout_width="576dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
@@ -59,7 +64,7 @@
 
                 <TextView
                     android:id="@+id/plotsynopsis"
-                    android:layout_width="match_parent"
+                    android:layout_width="576dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
@@ -72,5 +77,6 @@
 
         </ScrollView>
 
+    </LinearLayout>
 
 </RelativeLayout>
