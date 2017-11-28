@@ -17,22 +17,23 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.android.popularmovie1.MovieDBHelper.LOG_TAG;
+
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView recyclerView;
-    private List<Movie> movieList;
+    private ArrayList<Movie> movieList;
     MovieAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         movieList = new ArrayList<>();
@@ -45,6 +46,19 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         recyclerView.setAdapter(adapter);
         checkSort();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList("movie",movieList);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        movieList=savedInstanceState.getParcelableArrayList("movie");
     }
 
     public Activity getActivity() {
@@ -67,26 +81,26 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
 
             MovieApi movieapi = new MovieApi();
-            MovieService apiService = movieapi.getClient().create(MovieService.class);
+            MovieService apiService = MovieApi.getClient().create(MovieService.class);
             Call<MovieResponse> call = apiService.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN);
             call.enqueue(new Callback<MovieResponse>() {
 
                 @Override
                 public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                    List<Movie> movies = response.body().getResults();
+                    ArrayList<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MovieAdapter(getApplicationContext(), movies));
                     Toast.makeText(MainActivity.this, "Displaying By Most Popular Movies", Toast.LENGTH_SHORT).show();
                     recyclerView.smoothScrollToPosition(0);
 
                 }
 
-
                 @Override
                 public void onFailure(Call<MovieResponse> call, Throwable t) {
-                    Log.d("Error", t.getMessage());
+                    Log.d("Error", ""+t.getMessage());
                     Toast.makeText(MainActivity.this, "Error Fetching Data! And Internet Connection", Toast.LENGTH_SHORT).show();
 
                 }
+
 
             });
 
@@ -105,13 +119,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
 
             MovieApi movieapi = new MovieApi();
-            MovieService apiService = movieapi.getClient().create(MovieService.class);
+            MovieService apiService = MovieApi.getClient().create(MovieService.class);
             Call<MovieResponse> call = apiService.getTopRatedMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN);
             call.enqueue(new Callback<MovieResponse>() {
 
                 @Override
                 public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                    List<Movie> movies = response.body().getResults();
+                    ArrayList<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MovieAdapter(getApplicationContext(), movies));
                     Toast.makeText(MainActivity.this, "Displaying By Top Rated Movies", Toast.LENGTH_SHORT).show();
                     recyclerView.smoothScrollToPosition(0);
@@ -119,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
                 @Override
                 public void onFailure(Call<MovieResponse> call, Throwable t) {
-                    Log.d("Error", t.getMessage());
+                    Log.d("Error", ""+t.getMessage());
                     Toast.makeText(MainActivity.this, "Error Fetching Data! And Internet Connection", Toast.LENGTH_SHORT).show();
 
                 }
@@ -159,22 +173,58 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         String sortOrder = pref.getString(
                 this.getString(R.string.pref_sort_order_key),
                 this.getString(R.string.pref_most_popular)
-        );
+
+
+                );
         if (sortOrder.equals(this.getString(R.string.pref_most_popular))) {
             JSONMostPopularMovie();
-        } else {
+        }  else if (sortOrder.equals(this.getString(R.string.pref_Top_rated))){
             JSONTopRateMovie();
+        }  if (sortOrder.equals(this.getString(R.string.favorite))){
+            Log.d(LOG_TAG, "Sorting by favorite");
+         //   favView();
         }
     }
 
+    /*
+    private boolean favView() {
+        String URL = "content://com.example.android.popularmovie1.MovieProvider";
+        Uri movies = Uri.parse(URL);
+        Cursor retCursor = getActivity().getContentResolver().query(movies, null, null, null, null);
+                Movie favourite = new Movie();
 
+                favourite.originalTitle = retCursor.getString(retCursor.getColumnIndex(MovieContract.MovieEntry.TITLE));
+                favourite.id = retCursor.getInt(retCursor.getColumnIndex(MovieContract.MovieEntry.ID));
+                favourite.overview = retCursor.getString(retCursor.getColumnIndex(MovieContract.MovieEntry.OVERVIEW));
+                favourite.releaseDate = retCursor.getString(retCursor.getColumnIndex(MovieContract.MovieEntry.RELEASE_DATE));
+                favourite.voteAverage = retCursor.getDouble(retCursor.getColumnIndex(MovieContract.MovieEntry.VOTE));
+                favourite.posterPath = retCursor.getString(retCursor.getColumnIndex(MovieContract.MovieEntry.POSTER_PATH));
+
+                movieList.add(favourite);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        movieList = new ArrayList<>();
+        adapter = new MovieAdapter(this, movieList);
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        }
+        recyclerView.setAdapter(adapter);
+
+        return true;
+    }
+
+*/
+/*
     @Override
     public void onResume() {
         super.onResume();
         if (movieList.isEmpty()) {
-            checkSort();
+            movieList=onRestoreInstanceState(Bundle savedInstanceState);
         }
 
-    }
+    }*/
+
 }
 

@@ -29,9 +29,13 @@
         </activity>
         <activity
             android:name=".MovieSettings"
-            android:label="Settings">
+            android:label="Settings"></activity>
 
-        </activity>
+        <provider
+            android:name=".MovieProvider"
+            android:authorities="com.example.android.popularmovie1.MovieProvider"
+            android:exported="true"
+            android:syncable="true" />
 
     </application>
 

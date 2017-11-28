@@ -1,13 +1,28 @@
 package com.example.android.popularmovie1;
 
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MovieDetail extends AppCompatActivity {
@@ -16,6 +31,14 @@ public class MovieDetail extends AppCompatActivity {
     Movie movie;
     String thumbnail, movieName, synopsis, rating, dateOfRelease;
     int movie_id;
+    Activity myActivity;
+    private RecyclerView recyclerView;
+    private MovieTrailerAdapter adapter;
+    private List<Trailer> trailerList;
+
+    private RecyclerView recyclerViewReview;
+    private MovieReviewAdapter adapterReview;
+    private List<Review> reviewList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +55,11 @@ public class MovieDetail extends AppCompatActivity {
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("movie")) {
 
+
+
             movie = getIntent().getParcelableExtra("movie");
+            Log.e("blha",""+movie.getId());
+
             thumbnail = movie.getPosterPath();
             movieName = movie.getOriginalTitle();
             synopsis = movie.getOverview();
@@ -53,5 +80,152 @@ public class MovieDetail extends AppCompatActivity {
         } else {
             Toast.makeText(this, "There Is No API Data", Toast.LENGTH_SHORT).show();
         }
+
+        LikeButton likeButton = (LikeButton) findViewById(R.id.like);
+
+        /*
+        Cursor c = getContentResolver().query(Uri.parse(TABLE_MOVIE),null, "id= "+movie.id,null, null);
+
+        if(c != null && c.moveToFirst()){
+
+            likeButton.setLiked(true);
+        }else{
+
+        }
+*/
+        likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                ContentValues values = new ContentValues();
+                values.put(MovieContract.MovieEntry.ID, movie.getId());
+                values.put(MovieContract.MovieEntry.TITLE,movie.getOriginalTitle());
+                values.put(MovieContract.MovieEntry.OVERVIEW,
+                        movie.getOverview());
+                values.put(MovieContract.MovieEntry.RELEASE_DATE,
+                        movie.getReleaseDate());
+                values.put(MovieContract.MovieEntry.VOTE,
+                        movie.getVoteAverage());
+                values.put(MovieContract.MovieEntry.POSTER_PATH,
+                        movie.getPosterPath());
+
+
+                getActivity().getContentResolver().insert(
+                        MovieContract.BASE_CONTENT_URI, values);
+                Toast.makeText(MovieDetail.this, "Insterted to Favourite", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                getActivity().getContentResolver().delete(MovieContract.BASE_CONTENT_URI,"id= "+movie.id ,null);
+            }
+        });
+
+
+
+        trailerList=new ArrayList<>();
+        adapter=new MovieTrailerAdapter(this,trailerList);
+        recyclerView=(RecyclerView)findViewById(R.id.recycler_view_trailer);
+        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
+        JSONTrailer();
+
+
+        reviewList=new ArrayList<>();
+        adapterReview=new MovieReviewAdapter(this,reviewList);
+        recyclerViewReview=(RecyclerView)findViewById(R.id.recycler_view_review);
+        RecyclerView.LayoutManager mLayoutManagerReview=new LinearLayoutManager(getApplicationContext());
+        recyclerViewReview.setLayoutManager(mLayoutManagerReview);
+        recyclerViewReview.setAdapter(adapterReview);
+        adapterReview.notifyDataSetChanged();
+
+        JSONReview();
     }
-}
+
+    private void JSONTrailer(){
+        int movie_id=getIntent().getExtras().getInt("id");
+
+        try{
+
+            if(BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()){
+                Toast.makeText(getApplicationContext(),"There Is No API Key!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            MovieApi movieApi = new MovieApi();
+            MovieService apiService = MovieApi.getClient().create(MovieService.class);
+            retrofit2.Call<MovieTrailerResponse> call = apiService.getMovieTrailer(movie_id,BuildConfig.THE_MOVIE_DB_API_TOKEN);
+            call.enqueue(new Callback<MovieTrailerResponse>() {
+
+                @Override
+                public void onResponse(retrofit2.Call<MovieTrailerResponse> call, Response<MovieTrailerResponse> response) {
+                    List<Trailer> trailer = response.body().getResults();
+                    recyclerView.setAdapter(new MovieTrailerAdapter(getApplicationContext(), trailer));
+                    recyclerView.smoothScrollToPosition(0);
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<MovieTrailerResponse> call, Throwable t) {
+                    Log.d("Error", ""+t.getMessage());
+                    Toast.makeText(MovieDetail.this, "Error fetching trailer data!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }catch (Exception e){
+            Log.d("Error", e.getMessage());
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        }
+
+
+    private void JSONReview(){
+        int movie_id=getIntent().getExtras().getInt("id");
+
+        try{
+
+            if(BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()){
+                Toast.makeText(getApplicationContext(),"There Is No API Key!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            MovieApi movieApi = new MovieApi();
+            MovieService apiService = MovieApi.getClient().create(MovieService.class);
+            retrofit2.Call<MovieReviewResponse> call = apiService.getMovieReview(movie_id,BuildConfig.THE_MOVIE_DB_API_TOKEN);
+            call.enqueue(new Callback<MovieReviewResponse>() {
+
+                @Override
+                public void onResponse(retrofit2.Call<MovieReviewResponse> call, Response<MovieReviewResponse> response) {
+                    List<Review> review = response.body().getResults();
+                    recyclerViewReview.setAdapter(new MovieReviewAdapter(getApplicationContext(), review));
+                    recyclerViewReview.smoothScrollToPosition(0);
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<MovieReviewResponse> call, Throwable t) {
+                    Log.d("Error", ""+t.getMessage());
+                    Toast.makeText(MovieDetail.this, "Error fetching trailer data!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }catch (Exception e){
+            Log.d("Error", e.getMessage());
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public Activity getActivity() {
+        Context context = this;
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return null;
+
+    }}
+

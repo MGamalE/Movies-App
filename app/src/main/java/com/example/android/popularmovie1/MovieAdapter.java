@@ -11,15 +11,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Movie> movieList;
+    private ArrayList<Movie> movieList;
 
-    public MovieAdapter(Context mContext, List<Movie> movieList) {
+    public MovieAdapter(Context mContext, ArrayList<Movie> movieList) {
         this.mContext = mContext;
         this.movieList = movieList;
     }
@@ -68,6 +68,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
                     if (position != RecyclerView.NO_POSITION) {
                         Intent intent = new Intent(mContext, MovieDetail.class);
                         intent.putExtra("movie", movieList.get(position));
+                        intent.putExtra("id", movieList.get(position).getId());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
 

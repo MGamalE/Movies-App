@@ -49,6 +49,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:layout_constraintTop_creator="1" />
 
+            <com.like.LikeButton
+                android:id="@+id/like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                app:anim_scale_factor="2.5"
+                app:icon_size="25dp"
+                app:icon_type="heart"
+                />
+
             <TextView
                 android:id="@+id/releasedate"
                 android:layout_width="match_parent"
@@ -70,6 +80,52 @@
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/releasedate" />
+
+
+
+            <TextView
+                android:id="@+id/trailer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:text="@string/trailer"
+                app:layout_constraintTop_toBottomOf="@+id/plotsynopsis"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_trailer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/trailer"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/review"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_trailer"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/review"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -9,23 +9,23 @@ import com.google.gson.annotations.SerializedName;
 public class Movie implements Parcelable {
 
     @SerializedName("poster_path")
-    private String posterPath;
+    protected String posterPath;
     @SerializedName("overview")
-    private String overview;
+    protected String overview;
     @SerializedName("release_date")
-    private String releaseDate;
+    protected String releaseDate;
     @SerializedName("id")
-    private Integer id;
+    protected Integer id;
     @SerializedName("original_title")
-    private String originalTitle;
+    protected String originalTitle;
     @SerializedName("title")
-    private String title;
+    protected String title;
     @SerializedName("backdrop_path")
-    private String backdropPath;
+    protected String backdropPath;
     @SerializedName("popularity")
-    private Double popularity;
+    protected Double popularity;
     @SerializedName("vote_average")
-    private Double voteAverage;
+    public Double voteAverage;
 
     public Movie(String posterPath, String overview, String releaseDate, Integer id, String originalTitle, String title, String backdropPath, Double popularity, Double voteAverage) {
         this.posterPath = posterPath;
@@ -65,6 +65,10 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public Movie() {
+        super();
+    }
 
     public String getPosterPath() {
         return posterPath;
@@ -154,7 +158,7 @@ public class Movie implements Parcelable {
         dest.writeString(backdropPath);
         dest.writeString(baseImageUrl);
         dest.writeDouble(voteAverage);
-        dest.writeDouble(id);
+        dest.writeInt(id);
 
     }
 }
