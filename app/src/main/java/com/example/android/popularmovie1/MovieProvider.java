@@ -98,6 +98,7 @@ public class MovieProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+
         Uri returnUri;
         switch (sUriMatcher.match(uri)) {
             case MOVIE: {
@@ -119,7 +120,8 @@ public class MovieProvider extends ContentProvider {
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
-       /*
+        /*
+
         long rowID = db.insert(TABLE_MOVIE, "", values);
 
         if (rowID > 0) {

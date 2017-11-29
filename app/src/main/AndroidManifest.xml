@@ -32,7 +32,7 @@
             android:label="Settings"></activity>
 
         <provider
-            android:name=".MovieProvider"
+            android:name="com.example.android.popularmovie1.MovieProvider"
             android:authorities="com.example.android.popularmovie1.MovieProvider"
             android:exported="true"
             android:syncable="true" />

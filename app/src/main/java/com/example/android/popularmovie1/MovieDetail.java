@@ -109,7 +109,7 @@ public class MovieDetail extends AppCompatActivity {
                         movie.getPosterPath());
 
 
-                getActivity().getContentResolver().insert(
+                getContentResolver().insert(
                         MovieContract.BASE_CONTENT_URI, values);
                 Toast.makeText(MovieDetail.this, "Insterted to Favourite", Toast.LENGTH_SHORT).show();
 

@@ -22,8 +22,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.android.popularmovie1.MovieDBHelper.LOG_TAG;
-
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView recyclerView;
@@ -178,12 +176,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 );
         if (sortOrder.equals(this.getString(R.string.pref_most_popular))) {
             JSONMostPopularMovie();
-        }  else if (sortOrder.equals(this.getString(R.string.pref_Top_rated))){
+        } else {
             JSONTopRateMovie();
-        }  if (sortOrder.equals(this.getString(R.string.favorite))){
-            Log.d(LOG_TAG, "Sorting by favorite");
+        }  //else (sortOrder.equals(this.getString(R.string.favorite))){
+        //Log.d(LOG_TAG, "Sorting by favorite");
          //   favView();
-        }
+        // }
     }
 
     /*
