@@ -20,7 +20,7 @@ public class MovieProvider extends ContentProvider {
     private MovieDBHelper mOpenHelper;
 
     private static final int MOVIE = 100;
-    private static final int MOVIE_WITH_ID = 200;
+    private static final int MOVIE_WITH_ID = 101;
 
     private static UriMatcher buildUriMatcher() {
 

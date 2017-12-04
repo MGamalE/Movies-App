@@ -3,6 +3,7 @@ package com.example.android.popularmovie1;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 
@@ -22,15 +23,16 @@ class MovieDBHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " +
                 MovieContract.MovieEntry.TABLE_MOVIE + "(" +
-                MovieContract.MovieEntry._ID + "  INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + MovieContract.MovieEntry.ID + " INTEGER," +
+                BaseColumns._ID + "  INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + MovieContract.MovieEntry.ID + " TEXT NOT NULL," +
                 MovieContract.MovieEntry.TITLE + " TEXT NOT NULL, " +
                 MovieContract.MovieEntry.RELEASE_DATE + " TEXT NOT NULL, " +
                 MovieContract.MovieEntry.OVERVIEW + " TEXT NOT NULL, " +
                 MovieContract.MovieEntry.POSTER_PATH +
                 " TEXT NOT NULL, " +
                 MovieContract.MovieEntry.VOTE +
-                " REAL NOT NULL);";
+                " REAL NOT NULL, " +
+                "UNIQUE (" + MovieContract.MovieEntry.ID + ") ON CONFLICT REPLACE)";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
     }

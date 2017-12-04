@@ -33,7 +33,7 @@
 
         <provider
             android:name="com.example.android.popularmovie1.MovieProvider"
-            android:authorities="com.example.android.popularmovie1.MovieProvider"
+            android:authorities="com.example.android.popularmovie1"
             android:exported="true"
             android:syncable="true" />
 

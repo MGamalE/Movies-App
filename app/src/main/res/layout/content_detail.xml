@@ -55,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 app:anim_scale_factor="2.5"
+                app:layout_constraintTop_toBottomOf="@+id/title"
                 app:icon_size="25dp"
                 app:icon_type="heart"
                 />
