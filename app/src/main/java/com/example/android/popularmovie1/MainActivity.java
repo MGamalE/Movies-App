@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private RecyclerView recyclerView;
     private ArrayList<Movie> movieList;
+    private Parcelable mList;
     MovieAdapter adapter;
 
 
@@ -54,11 +56,29 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("movie", movieList);
         super.onSaveInstanceState(outState);
+
+        movieList = (ArrayList<Movie>) recyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelableArrayList("movie", movieList);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+            movieList = savedInstanceState.getParcelable("movie");
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (movieList != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(movieList);
+        }
+
+    }
+    
     public Activity getActivity() {
         Context context = this;
         while (context instanceof ContextWrapper) {
@@ -221,16 +241,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (movieList != null) {
-            checkSort();
-        } else {
-            checkSort();
-        }
-
-    }
 
 }
 
