@@ -82,7 +82,7 @@
                 android:padding="16dp"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/releasedate" />
+                app:layout_constraintTop_toBottomOf="@+id/like" />
 
 
 

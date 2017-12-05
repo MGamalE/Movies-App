@@ -29,17 +29,19 @@ import static com.example.android.popularmovie1.MovieDBHelper.LOG_TAG;
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private RecyclerView recyclerView;
-    private ArrayList<Movie> movieList;
-    private Parcelable mList;
-    MovieAdapter adapter;
 
+    private ArrayList<Movie> movieList;
+
+    MovieAdapter adapter;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private Parcelable listState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         movieList = new ArrayList<>();
         adapter = new MovieAdapter(this, movieList);
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -51,33 +53,38 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         checkSort();
 
 
-
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
+        listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(KEY_RECYCLER_STATE, listState);
+
         super.onSaveInstanceState(outState);
 
-        movieList = (ArrayList<Movie>) recyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelableArrayList("movie", movieList);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null)
-            movieList = savedInstanceState.getParcelable("movie");
 
-    }
+    protected void onRestoreInstanceState(Bundle outState) {
+        super.onRestoreInstanceState(outState);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (movieList != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(movieList);
+        if (outState != null) {
+            listState = outState.getParcelable(KEY_RECYCLER_STATE);
         }
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (listState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+
+    }
+
 
     public Activity getActivity() {
         Context context = this;
