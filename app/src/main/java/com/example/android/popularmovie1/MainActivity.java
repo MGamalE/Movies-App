@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
     }
-    
+
     public Activity getActivity() {
         Context context = this;
         while (context instanceof ContextWrapper) {
