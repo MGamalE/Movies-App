@@ -97,7 +97,6 @@ public class MovieDetail extends AppCompatActivity {
             if (flag == true) {
                 likeButton.setLiked(true);
             }
-            Log.e("flag", "" + flag);
         } catch (Exception e) {
             Log.d("Error", e.getMessage());
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -120,23 +119,15 @@ public class MovieDetail extends AppCompatActivity {
                         movie.getPosterPath());
 
 
-                getContentResolver().insert(
+                getActivity().getContentResolver().insert(
                         MovieContract.MovieEntry.CONTENT_URI, values);
-
-                if (getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, values) != null) {
-                    Toast.makeText(getBaseContext(), getContentResolver().insert(
-                            MovieContract.MovieEntry.CONTENT_URI, values).toString(), Toast.LENGTH_LONG).show();
-                }
-
-                Log.e("val", "" + values);
-
                 Toast.makeText(MovieDetail.this, "Inserted to Favourite", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI, "id= " + movie.id, null);
+                getActivity().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI, "id= " + movie.id, null);
                 Toast.makeText(MovieDetail.this, "Deleted From Favourite", Toast.LENGTH_SHORT).show();
             }
         });

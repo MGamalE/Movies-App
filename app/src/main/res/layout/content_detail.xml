@@ -49,16 +49,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:layout_constraintTop_creator="1" />
 
-            <com.like.LikeButton
-                android:id="@+id/like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                app:anim_scale_factor="2.5"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:icon_size="25dp"
-                app:icon_type="heart"
-                />
 
             <TextView
                 android:id="@+id/releasedate"
@@ -71,6 +61,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userrating" />
 
+            <com.like.LikeButton
+                android:id="@+id/like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:anim_scale_factor="2.5"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:padding="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/releasedate"
+                app:icon_size="30dp"
+                app:icon_type="star" />
+
             <TextView
                 android:id="@+id/plotsynopsis"
                 android:layout_width="match_parent"
@@ -80,7 +83,7 @@
                 android:padding="16dp"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/releasedate" />
+                app:layout_constraintTop_toBottomOf="@+id/like" />
 
 
 

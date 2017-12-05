@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private ArrayList<Movie> movieList;
     MovieAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         movieList = new ArrayList<>();
@@ -48,20 +48,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         recyclerView.setAdapter(adapter);
         checkSort();
 
+
+
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         outState.putParcelableArrayList("movie", movieList);
+        super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        movieList = savedInstanceState.getParcelableArrayList("movie");
-    }
 
     public Activity getActivity() {
         Context context = this;
@@ -211,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Toast.makeText(MainActivity.this, "Favourite List", Toast.LENGTH_SHORT).show();
 
             recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-            //  movieList = new ArrayList<>(movieList);
             adapter = new MovieAdapter(this, movieList);
             if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -226,16 +221,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
-        if (movieList.isEmpty()) {
+        if (movieList != null) {
             checkSort();
         } else {
-
             checkSort();
         }
+
     }
 
 }

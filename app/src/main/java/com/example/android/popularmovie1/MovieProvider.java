@@ -120,17 +120,6 @@ public class MovieProvider extends ContentProvider {
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
-        /*
-
-        long rowID = db.insert(TABLE_MOVIE, "", values);
-
-        if (rowID > 0) {
-            Uri _uri = ContentUris.withAppendedId(BASE_CONTENT_URI, rowID);
-            getContext().getContentResolver().notifyChange(_uri, null);
-            return _uri;
-        }
-
-        throw new SQLException("Failed to add a record into " + uri+"  "); */
     }
 
     @Override
