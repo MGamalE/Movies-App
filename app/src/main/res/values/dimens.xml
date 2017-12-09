@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="trailer_image_width">50dp</dimen>
+
+    <dimen name="trailer_image_height">100dp</dimen>
+    <dimen name="movie_image_height">200dp</dimen>
+    <dimen name="appBar_height">350dp</dimen>
+
+    <dimen name="layout_marginSmall">5dp</dimen>
+    <dimen name="layout_marginMedium">16dp</dimen>
+    <dimen name="marginMedium">48dp</dimen>
+    <dimen name="marginLarge">64dp</dimen>
+
+    <dimen name="layout_tx_marginSmall">3dp</dimen>
+    <dimen name="layout_tx_marginMedium">10dp</dimen>
+    <dimen name="layout_tx_marginLarge">16dp</dimen>
+
+
+    <dimen name="layout_padding">10dp</dimen>
+    <dimen name="layout_paddingSmall">8dp</dimen>
+    <dimen name="layout_tx_padding">16dp</dimen>
+
+    <dimen name="tx_sizeSmall">15sp</dimen>
+    <dimen name="tx_sizeSmallx">12sp</dimen>
+    <dimen name="tx_sizeMedium">20sp</dimen>
+    <dimen name="tx_sizeLarge">30sp</dimen>
+
+
+</resources>
