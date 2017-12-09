@@ -13,4 +13,8 @@
     <string name="trailer">Trailer</string>
     <string name="review">Review</string>
     <string name="favorite" translatable="false">Favorite Movies</string>
+    <string name="popular_movie">"Displaying By Most Popular"</string>
+    <string name="fetch_data">"Error Fetching Data!"</string>
+
+
 </resources>

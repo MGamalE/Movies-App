@@ -28,18 +28,19 @@ import static com.example.android.popularmovie1.MovieDBHelper.LOG_TAG;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private RecyclerView recyclerView;
-
-    private ArrayList<Movie> movieList;
-
-    MovieAdapter adapter;
+    private final String no_api = "No API Data!";
     private final String KEY_RECYCLER_STATE = "recycler_state";
+    private RecyclerView recyclerView;
+    private ArrayList<Movie> movieList;
+    MovieAdapter adapter;
     private Parcelable listState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         movieList = new ArrayList<>();
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         }
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         checkSort();
 
 
@@ -65,12 +67,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-    protected void onRestoreInstanceState(Bundle outState) {
-        super.onRestoreInstanceState(outState);
-
-        if (outState != null) {
-            listState = outState.getParcelable(KEY_RECYCLER_STATE);
+        if (savedInstanceState != null) {
+            listState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
         }
 
     }
@@ -78,13 +79,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onResume() {
         super.onResume();
-
         if (listState != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
         }
-
     }
-
 
     public Activity getActivity() {
         Context context = this;
@@ -99,9 +97,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void JSONMostPopularMovie() {
+        final String most_popular = getResources().getString(R.string.popular_movie);
+        final String fetch_data = getResources().getString(R.string.fetch_data);
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "There Is No API Key!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), no_api, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                     ArrayList<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MovieAdapter(getApplicationContext(), movies));
-                    Toast.makeText(MainActivity.this, "Displaying By Most Popular Movies", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, most_popular, Toast.LENGTH_SHORT).show();
                     recyclerView.smoothScrollToPosition(0);
 
                 }
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 @Override
                 public void onFailure(Call<MovieResponse> call, Throwable t) {
                     Log.d("Error", "" + t.getMessage());
-                    Toast.makeText(MainActivity.this, "Error Fetching Data! And Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fetch_data, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -137,9 +137,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void JSONTopRateMovie() {
+        final String fetch_data = getResources().getString(R.string.fetch_data);
         try {
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "There Is No API Key", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), no_api, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -152,14 +153,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                     ArrayList<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MovieAdapter(getApplicationContext(), movies));
-                    Toast.makeText(MainActivity.this, "Displaying By Top Rated Movies", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Displaying By Top Rated", Toast.LENGTH_SHORT).show();
                     recyclerView.smoothScrollToPosition(0);
                 }
 
                 @Override
                 public void onFailure(Call<MovieResponse> call, Throwable t) {
                     Log.d("Error", "" + t.getMessage());
-                    Toast.makeText(MainActivity.this, "Error Fetching Data! And Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fetch_data, Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -195,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void checkSort() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+
         String sortOrder = preferences.getString(
                 this.getString(R.string.pref_sort_order_key),
                 this.getString(R.string.pref_most_popular)
@@ -213,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void favView() {
-
         try {
+
 
             movieList.clear();
             Cursor retCursor = getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, null, null, null, null);
@@ -241,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
             }
             recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
         } catch (Exception e) {
             Log.d("Error", e.getMessage());

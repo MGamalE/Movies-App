@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/layout_marginSmall"
         android:elevation="3dp"
         card_view:cardCornerRadius="0dp">
 
@@ -21,7 +21,7 @@
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/movie_image_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitXY" />
 
@@ -30,22 +30,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/thumbnail"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:textColor="#4c4c4c"
-                android:textSize="15dp" />
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingRight="@dimen/layout_padding"
+                android:paddingTop="@dimen/layout_padding"
+                android:textColor="@color/whiteBlack"
+                android:textSize="@dimen/tx_sizeSmall" />
 
             <TextView
                 android:id="@+id/userrating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingBottom="@dimen/layout_padding"
+                android:paddingLeft="@dimen/layout_padding"
+                android:paddingRight="@dimen/layout_padding"
                 android:textColor="@color/colorAccent"
-                android:textSize="12dp" />
+                android:textSize="@dimen/tx_sizeSmallx" />
 
         </RelativeLayout>
 

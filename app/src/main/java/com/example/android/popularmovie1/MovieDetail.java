@@ -56,7 +56,6 @@ public class MovieDetail extends AppCompatActivity {
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("movie")) {
 
-
             movie = getIntent().getParcelableExtra("movie");
 
             thumbnail = movie.getPosterPath();
@@ -77,7 +76,7 @@ public class MovieDetail extends AppCompatActivity {
             releaseDate.setText(dateOfRelease);
 
         } else {
-            Toast.makeText(this, "There Is No API Data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No Api Data", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -121,7 +120,7 @@ public class MovieDetail extends AppCompatActivity {
 
                 getActivity().getContentResolver().insert(
                         MovieContract.MovieEntry.CONTENT_URI, values);
-                Toast.makeText(MovieDetail.this, "Inserted to Favourite", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MovieDetail.this, "Inserted To Favourite", Toast.LENGTH_SHORT).show();
 
             }
 
