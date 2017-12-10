@@ -41,6 +41,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         String poster = "https://image.tmdb.org/t/p/w185/" + movieList.get(i).getPosterPath();
         Picasso.with(mContext)
                 .load(poster)
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.error)
                 .into(viewHolder.thumbnail);
 
     }
@@ -54,7 +56,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         this.movieList = movies;
         notifyDataSetChanged();
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, userrating;
