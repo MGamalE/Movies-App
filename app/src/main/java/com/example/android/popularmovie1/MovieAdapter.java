@@ -19,9 +19,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     private Context mContext;
     private ArrayList<Movie> movieList;
 
-    public MovieAdapter(Context mContext, ArrayList<Movie> movieList) {
+    public MovieAdapter(Context mContext) {
         this.mContext = mContext;
-        this.movieList = movieList;
     }
 
     @Override
@@ -54,7 +53,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
 
     public void setMovies(ArrayList<Movie> movies) {
         this.movieList = movies;
-        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

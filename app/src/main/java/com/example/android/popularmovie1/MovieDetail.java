@@ -27,12 +27,13 @@ import retrofit2.Response;
 
 
 public class MovieDetail extends AppCompatActivity {
+    String insert = "Inserted To Favourite";
+    String delete = "Deleted From Favourite";
     TextView nameOfMovie, plotSynopsis, userRating, releaseDate;
     ImageView imageView;
     Movie movie;
     String thumbnail, movieName, synopsis, rating, dateOfRelease;
     int movie_id;
-    Activity myActivity;
     private RecyclerView recyclerView;
     private MovieTrailerAdapter adapter;
     private List<Trailer> trailerList;
@@ -40,6 +41,7 @@ public class MovieDetail extends AppCompatActivity {
     private RecyclerView recyclerViewReview;
     private MovieReviewAdapter adapterReview;
     private List<Review> reviewList;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,16 +57,13 @@ public class MovieDetail extends AppCompatActivity {
 
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("movie")) {
-
             movie = getIntent().getParcelableExtra("movie");
-
             thumbnail = movie.getPosterPath();
             movieName = movie.getOriginalTitle();
             synopsis = movie.getOverview();
             rating = Double.toString(movie.getVoteAverage());
             dateOfRelease = movie.getReleaseDate();
             movie_id = movie.getId();
-
             String poster = "https://image.tmdb.org/t/p/w185" + thumbnail;
             Picasso.with(this)
                     .load(poster)
@@ -93,7 +92,7 @@ public class MovieDetail extends AppCompatActivity {
 
             }
 
-            if (flag == true) {
+            if (flag) {
                 likeButton.setLiked(true);
             }
         } catch (Exception e) {
@@ -120,14 +119,14 @@ public class MovieDetail extends AppCompatActivity {
 
                 getActivity().getContentResolver().insert(
                         MovieContract.MovieEntry.CONTENT_URI, values);
-                Toast.makeText(MovieDetail.this, "Inserted To Favourite", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MovieDetail.this, insert, Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
                 getActivity().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI, "id= " + movie.id, null);
-                Toast.makeText(MovieDetail.this, "Deleted From Favourite", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MovieDetail.this, delete, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -157,11 +156,12 @@ public class MovieDetail extends AppCompatActivity {
 
     private void JSONTrailer() {
         int movie_id = getIntent().getExtras().getInt("id");
-
+        String no_api = getResources().getString(R.string.no_api);
+        final String fetch_trailer = getResources().getString(R.string.fetch__trailer_data);
         try {
 
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "There Is No API Key!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), no_api, Toast.LENGTH_SHORT).show();
                 return;
             }
             MovieApi movieApi = new MovieApi();
@@ -179,7 +179,7 @@ public class MovieDetail extends AppCompatActivity {
                 @Override
                 public void onFailure(retrofit2.Call<MovieTrailerResponse> call, Throwable t) {
                     Log.d("Error", "" + t.getMessage());
-                    Toast.makeText(MovieDetail.this, "Error fetching trailer data!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MovieDetail.this, fetch_trailer, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -193,11 +193,13 @@ public class MovieDetail extends AppCompatActivity {
 
     private void JSONReview() {
         int movie_id = getIntent().getExtras().getInt("id");
+        String no_api = getResources().getString(R.string.no_api);
+        final String fetch_review = getResources().getString(R.string.fetch_review_data);
 
         try {
 
             if (BuildConfig.THE_MOVIE_DB_API_TOKEN.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "There Is No API Key!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), no_api, Toast.LENGTH_SHORT).show();
                 return;
             }
             MovieApi movieApi = new MovieApi();
@@ -215,7 +217,7 @@ public class MovieDetail extends AppCompatActivity {
                 @Override
                 public void onFailure(retrofit2.Call<MovieReviewResponse> call, Throwable t) {
                     Log.d("Error", "" + t.getMessage());
-                    Toast.makeText(MovieDetail.this, "Error fetching trailer data!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MovieDetail.this, fetch_review, Toast.LENGTH_SHORT).show();
                 }
             });
 

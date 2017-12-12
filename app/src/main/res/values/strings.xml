@@ -14,7 +14,12 @@
     <string name="review">Review</string>
     <string name="favorite" translatable="false">Favorite Movies</string>
     <string name="popular_movie">"Displaying By Most Popular"</string>
+    <string name="top_rated">"Displaying By Top Rated"</string>
+    <string name="fv">"Favourite List"</string>
     <string name="fetch_data">"Error Fetching Data!"</string>
+    <string name="fetch__trailer_data">"Error Fetching Trailer Data!"</string>
+    <string name="fetch_review_data">"Error Fetching Review Data!"</string>
+    <string name="no_api">"No API Key"</string>
 
 
 </resources>
