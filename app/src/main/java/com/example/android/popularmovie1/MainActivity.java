@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         } else {
             movieList = new ArrayList<>();
         }
+
         gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns());
         adapter = new MovieAdapter(this);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -56,16 +57,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         } else {
             checkSort();
         }
-
-
-        /*
-        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        }
-        */
-
 
     }
 
