@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.popularmovie1">
+    package="com.example.android.movieshow">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -32,8 +32,8 @@
             android:label="Settings"></activity>
 
         <provider
-            android:name="com.example.android.popularmovie1.MovieProvider"
-            android:authorities="com.example.android.popularmovie1"
+            android:name="com.example.android.movieshow.MovieProvider"
+            android:authorities="com.example.android.movieshow"
             android:exported="true"
             android:syncable="true" />
 

@@ -86,7 +86,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/like" />
 
 
-
             <TextView
                 android:id="@+id/trailer"
                 android:layout_width="match_parent"
@@ -97,7 +96,7 @@
                 android:textStyle="bold"
                 android:text="@string/trailer"
                 app:layout_constraintTop_toBottomOf="@+id/plotsynopsis"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_trailer"
@@ -118,7 +117,7 @@
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/layout_tx_marginMedium"
                 app:layout_constraintTop_toBottomOf="@id/recycler_view_trailer"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_review"
